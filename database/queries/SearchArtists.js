@@ -10,12 +10,7 @@ import Artist from '../models/artist';
  * expected shape: { all: [artists], count: count, offset: offset, limit: limit}
  */
 export default (criteria, sortProperty, offset = 0, limit = 20) => {
-  const count = Artist.count();
-
-  //   const searchQuery2 = Artist.find(buildQuery(criteria))
-  //     .sort({ [sortProperty]: 'asc' })
-  //     .skip(offset)
-  //     .limit(limit);
+  const count = Artist.find(buildQuery(criteria)).count();
 
   const searchQuery = Artist.find(buildQuery(criteria))
     .sort({ [sortProperty]: 'asc' })

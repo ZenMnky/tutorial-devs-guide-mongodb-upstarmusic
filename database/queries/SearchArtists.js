@@ -11,10 +11,13 @@ import Artist from '../models/artist';
  */
 export default (criteria, sortProperty, offset = 0, limit = 20) => {
   const count = Artist.count();
-  //   const { name, age, yearsActive } = criteria;
 
-  //   const searchQuery = Artist.find({ name: { $regex: `/${name}/i` } }, age: {});
-  const searchQuery = Artist.find({})
+  //   const searchQuery2 = Artist.find(buildQuery(criteria))
+  //     .sort({ [sortProperty]: 'asc' })
+  //     .skip(offset)
+  //     .limit(limit);
+
+  const searchQuery = Artist.find(buildQuery(criteria))
     .sort({ [sortProperty]: 'asc' })
     .skip(offset)
     .limit(limit);
@@ -27,4 +30,26 @@ export default (criteria, sortProperty, offset = 0, limit = 20) => {
       limit,
     };
   });
+};
+
+const buildQuery = (criteria) => {
+  const { name, age, yearsActive } = criteria;
+  const query = {};
+  if (age) {
+    query.age = {
+      $gte: age.min,
+      $lte: age.max,
+    };
+  }
+  if (yearsActive) {
+    query.yearsActive = {
+      $gte: yearsActive.min,
+      $lte: yearsActive.max,
+    };
+  }
+  if (name) {
+    query.$text = { $search: name };
+  }
+
+  return query;
 };

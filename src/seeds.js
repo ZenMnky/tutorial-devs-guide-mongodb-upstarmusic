@@ -13,28 +13,27 @@ db.open()
     artistsCollection = db.collection('artists');
     return artistsCollection.count({});
   })
-  .then(count => {
+  .then((count) => {
     if (count < MINIMUM_ARTISTS) {
       const artists = _.times(ARTISTS_TO_ADD, () => createArtist());
 
       artistsCollection.insertMany(artists);
     }
   })
-  .catch(e => console.log(e));
-
+  .catch((e) => console.log(e));
 
 function createArtist() {
   return {
     name: faker.name.findName(),
     age: randomBetween(15, 45),
     yearsActive: randomBetween(0, 15),
-    image: faker.image.avatar(),
+    image: faker.internet.avatar(),
     genre: getGenre(),
     website: faker.internet.url(),
     netWorth: randomBetween(0, 5000000),
     labelName: faker.company.companyName(),
     retired: faker.random.boolean(),
-    albums: getAlbums()
+    albums: getAlbums(),
   };
 }
 
@@ -48,7 +47,7 @@ function getAlbums() {
       copiesSold,
       numberTracks: randomBetween(1, 20),
       image: getAlbumImage(),
-      revenue: copiesSold * 12.99
+      revenue: copiesSold * 12.99,
     };
   });
 }
@@ -69,5 +68,5 @@ function randomEntry(array) {
 }
 
 function randomBetween(min, max) {
-  return ~~(Math.random() * (max-min)) + min;
+  return ~~(Math.random() * (max - min)) + min;
 }

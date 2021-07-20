@@ -1,6 +1,6 @@
-import mongoose from 'mongoose';
+import { Schema } from 'mongoose';
 
-const AlbumSchema = mongoose.Schema({
+const AlbumSchema = Schema({
   title: String,
   date: Date,
   copiesSold: Number,
